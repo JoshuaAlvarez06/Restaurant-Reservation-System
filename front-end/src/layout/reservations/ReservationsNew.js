@@ -24,12 +24,14 @@ const ReservationsNew = () => {
       ...formData,
       [target.name]: target.value,
     });
-    console.log(formData);
+    console.log(typeof formData.people);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createReservation({ data: formData })
+    createReservation({
+      data: { ...formData, people: Number(formData.people) },
+    })
       .then(() => history.push(`/dashboard?date=${formData.reservation_date}`))
       .catch(setError);
   };
@@ -67,7 +69,7 @@ const ReservationsNew = () => {
             <input
               type="tel"
               name="mobile_number"
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+              // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               placeholder="000-000-0000"
               maxLength="12"
               minLength="7"
