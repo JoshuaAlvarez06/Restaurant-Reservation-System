@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import ErrorAlert from "../ErrorAlert";
 import "./ReservationsNew.css";
+import { createReservation } from "../../utils/api";
 
 const ReservationsNew = () => {
+  const history = useHistory();
   const initialFormData = {
     first_name: "",
     last_name: "",
@@ -12,8 +15,11 @@ const ReservationsNew = () => {
     people: 1,
   };
   const [formData, setFormData] = useState(initialFormData);
+  const [error, setError] = useState(null);
 
-  const changeHandler = ({ target }) => {
+  const cancelHandler = () => history.goBack();
+
+  const changeHandler = async ({ target }) => {
     setFormData({
       ...formData,
       [target.name]: target.value,
@@ -23,12 +29,16 @@ const ReservationsNew = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    createReservation({ data: formData })
+      .then(() => history.push(`/dashboard?date=${formData.reservation_date}`))
+      .catch(setError);
   };
 
   return (
     <div className="reservationsNew">
       <div className="reservationsNew__container">
         <h1>New Reservation</h1>
+        <ErrorAlert error={error} />
         <form className="reservationsNew__form" onSubmit={handleSubmit}>
           <div className="reservationsNew__formGroup">
             <label htmlFor="first_name">First Name</label>
@@ -59,7 +69,7 @@ const ReservationsNew = () => {
               name="mobile_number"
               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               placeholder="000-000-0000"
-              maxLength="10"
+              maxLength="12"
               minLength="7"
               required
               value={formData.mobile_number}
@@ -99,9 +109,12 @@ const ReservationsNew = () => {
             />
           </div>
           <div className="reservationsNew_formBtns">
-            <Link to="/" className="reservationsNew__formBtn">
+            <button
+              onClick={cancelHandler}
+              className="reservationsNew__formBtn"
+            >
               Cancel
-            </Link>
+            </button>
             <button className="reservationsNew__formBtn" type="submit">
               Submit
             </button>

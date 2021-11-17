@@ -1,7 +1,7 @@
 .reservationsNew {
   margin-top: 2rem;
   width: 100%;
-  height: 100%;
+  max-height: 100vh;
 }
 
 .reservationsNew__container {
@@ -54,4 +54,11 @@
   border: none;
   border-radius: 5px;
   padding: 0.5rem 0;
+}
+
+@media screen and (max-width: 768px) {
+  .reservationsNew__form {
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
 }
