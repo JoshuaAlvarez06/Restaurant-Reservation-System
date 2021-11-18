@@ -27,28 +27,32 @@ function validProperties(req, res, next) {
     people,
   } = data;
 
-  if (!first_name || first_name.trim() === "")
+  if (!first_name || first_name.trim() === "") {
     errors.push("first_name is missing or is empty");
+  }
 
   if (!last_name || last_name.trim() === "") {
     errors.push("last_name is missing or is empty");
   }
-  if (!mobile_number || mobile_number.trim() === "")
+  if (!mobile_number || mobile_number.trim() === "") {
     errors.push("mobile_number is missing or is empty");
+  }
 
   if (
     !reservation_date ||
     reservation_date === "" ||
     !dateFormat.test(reservation_date)
-  )
+  ) {
     errors.push("reservation_date is missing or is empty or is not a date");
+  }
 
   if (
     !reservation_time ||
     reservation_time === "" ||
     !timeFormat.test(reservation_time)
-  )
+  ) {
     errors.push("reservation_time is missing or is empty or is not a time");
+  }
 
   if (!people || typeof 1 !== typeof people || people < 1) {
     errors.push("people is missing or is zero or is not a number");
