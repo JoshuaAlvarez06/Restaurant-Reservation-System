@@ -46,12 +46,27 @@ function validProperties(req, res, next) {
     errors.push("reservation_date is missing or is empty or is not a date");
   }
 
+  if (new Date(reservation_date).getDay() == 1) {
+    errors.push(
+      "The reservation date is a Tuesday and the restaurant is closed on Tuesdays."
+    );
+  }
+
   if (
     !reservation_time ||
     reservation_time === "" ||
     !timeFormat.test(reservation_time)
   ) {
     errors.push("reservation_time is missing or is empty or is not a time");
+  }
+
+  if (
+    new Date(`${reservation_date} ${reservation_time}`).getTime() / 1000 <
+    new Date().getTime() / 1000
+  ) {
+    errors.push(
+      "The reservation date/time is in the past. Only future reservations are allowed."
+    );
   }
 
   if (!people || typeof 1 !== typeof people || people < 1) {

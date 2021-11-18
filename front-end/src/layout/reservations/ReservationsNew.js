@@ -24,7 +24,6 @@ const ReservationsNew = () => {
       ...formData,
       [target.name]: target.value,
     });
-    console.log(typeof formData.people);
   };
 
   const handleSubmit = (e) => {
