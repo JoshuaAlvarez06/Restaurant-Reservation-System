@@ -28,10 +28,10 @@ function Dashboard({ date }) {
 
   return (
     <main style={{ maxWidth: "100vw" }}>
-      <h1>Dashboard</h1>
+      <h1 className="mt-3">Dashboard</h1>
       <div className="d-md-flex mb-3">
         <div className="dashboardHeader">
-          <div className="dayButtons mb-3">
+          <div className="dayButtons mt-3 mb-3">
             <button
               onClick={() => history.push(`/dashboard`)}
               className="btn btn-info mr-2"
@@ -59,10 +59,8 @@ function Dashboard({ date }) {
       <table className="table">
         <thead>
           <tr className="reservations-head">
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th>Name</th>
             <th>Mobile Number</th>
-            <th>Reservation Date</th>
             <th>Reservation Time</th>
             <th>People</th>
           </tr>
@@ -70,10 +68,10 @@ function Dashboard({ date }) {
         <tbody>
           {reservations.map((reservation) => (
             <tr key={reservation.reservation_id}>
-              <td>{reservation.first_name}</td>
-              <td>{reservation.last_name}</td>
+              <td>
+                {reservation.first_name} {reservation.last_name}
+              </td>
               <td>{reservation.mobile_number}</td>
-              <td>{reservation.reservation_date}</td>
               <td>{reservation.reservation_time}</td>
               <td>{reservation.people}</td>
             </tr>
