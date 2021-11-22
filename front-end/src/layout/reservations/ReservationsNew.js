@@ -19,17 +19,18 @@ const ReservationsNew = () => {
 
   const cancelHandler = () => history.goBack();
 
-  const changeHandler = async ({ target }) => {
+  const changeHandler = ({ target }) => {
     setFormData({
       ...formData,
-      [target.name]: target.value,
+      [target.name]:
+        target.name === 'people' ? Number(target.value) : target.value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     createReservation({
-      data: { ...formData, people: Number(formData.people) },
+      data: { ...formData },
     })
       .then(() => history.push(`/dashboard?date=${formData.reservation_date}`))
       .catch(setError);
@@ -68,7 +69,6 @@ const ReservationsNew = () => {
             <input
               type='tel'
               name='mobile_number'
-              // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               placeholder='000-000-0000'
               maxLength='12'
               minLength='7'

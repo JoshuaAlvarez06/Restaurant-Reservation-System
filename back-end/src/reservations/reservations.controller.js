@@ -98,6 +98,19 @@ function validProperties(req, res, next) {
   next();
 }
 
+const reservationExists = async (req, res, next) => {
+  const { reservationId } = req.params;
+  const foundReservation = await service.read(reservationId);
+  if (foundReservation) {
+    res.locals.reservation = foundReservation;
+    return next();
+  }
+  next({
+    status: 404,
+    message: `Reservation with ID ${reservationId} not found`,
+  });
+};
+
 async function list(req, res) {
   const { date } = req.query;
   res.json({ data: await service.list(date) });
@@ -109,7 +122,13 @@ async function create(req, res) {
   res.status(201).json({ data });
 }
 
+const read = (req, res) => {
+  const reservation = res.locals.reservation;
+  res.json({ data: reservation });
+};
+
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [validProperties, asyncErrorBoundary(create)],
+  read: [asyncErrorBoundary(reservationExists), read],
 };
