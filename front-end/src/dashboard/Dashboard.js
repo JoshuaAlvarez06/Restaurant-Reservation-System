@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { listReservations, listTables } from '../utils/api';
+import { listReservations } from '../utils/api';
 import ErrorAlert from '../layout/ErrorAlert';
 import { Link, useHistory } from 'react-router-dom';
 import { previous, next } from '../utils/date-time';
@@ -14,12 +14,9 @@ import './Dashboard.css';
 function Dashboard({ date }) {
   const history = useHistory();
   const [reservations, setReservations] = useState([]);
-  const [tables, setTables] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
-  const [tablesError, setTablesError] = useState(null);
 
   useEffect(loadDashboard, [date]);
-  useEffect(loadTables, []);
 
   function loadDashboard() {
     const abortController = new AbortController();
@@ -27,13 +24,6 @@ function Dashboard({ date }) {
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
-    return () => abortController.abort();
-  }
-
-  function loadTables() {
-    const abortController = new AbortController();
-    setTablesError(null);
-    listTables().then(setTables).catch(setTablesError);
     return () => abortController.abort();
   }
 
@@ -104,21 +94,6 @@ function Dashboard({ date }) {
           })}
         </tbody>
       </table>
-      <h4 className='mt-4 mb-0'>Tables</h4>
-      <ErrorAlert error={tablesError} />
-      <div className='tablesSection'>
-        {tables.map((table) => (
-          <div key={table.table_id} className='tableCard'>
-            <p className='tableHeader'>{table.table_name}</p>
-            <p
-              className='tableStatus'
-              data-table-id-status={`${table.table_id}`}
-            >
-              {table.reservation_id ? 'occupied' : 'free'}
-            </p>
-          </div>
-        ))}
-      </div>
     </main>
   );
 }

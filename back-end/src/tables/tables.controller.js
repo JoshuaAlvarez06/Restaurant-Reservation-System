@@ -3,6 +3,28 @@ const reservationsService = require('../reservations/reservations.service');
 const asyncErrorBoundary = require('../errors/asyncErrorBoundary');
 const { table } = require('../db/connection');
 
+const tableExistsToDelete = async (req, res, next) => {
+  const { tableId } = req.params;
+  const foundTable = await service.read(tableId);
+
+  if (foundTable && !foundTable.reservation_id) {
+    return next({
+      status: 400,
+      message: `table_id, ${tableId}, is not occupied`,
+    });
+  }
+
+  if (foundTable) {
+    res.locals.table = foundTable;
+    return next();
+  }
+
+  next({
+    status: 404,
+    message: `Table with ID ${tableId} not foundTable.`,
+  });
+};
+
 const validBodyProperties = (req, res, next) => {
   const { data } = req.body;
 
@@ -113,8 +135,17 @@ const update = async (req, res) => {
   res.json({ data });
 };
 
+const destroy = async (req, res) => {
+  const data = await service.destroy(res.locals.table.table_id);
+  res.json({ data });
+};
+
 module.exports = {
   list,
   create: [validBodyProperties, asyncErrorBoundary(create)],
   update: [validUpdateBody, asyncErrorBoundary(update)],
+  destroy: [
+    asyncErrorBoundary(tableExistsToDelete),
+    asyncErrorBoundary(destroy),
+  ],
 };
