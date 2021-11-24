@@ -40,24 +40,29 @@ const ReservationsSeat = () => {
           <div className='tablesNew_formGroup'>
             <label htmlFor='table_name'>Table Number</label>
             <select
-              type='text'
               name='table_id'
               minLength='2'
               onChange={changeHandler}
               required
             >
               <option value=''>Select a Table</option>
-              {tables
-                // .filter((table) => !table.reservation_id)
-                .map((table) => (
-                  <option key={table.table_id} value={table.table_id}>
-                    {table.table_name} - {table.capacity}
-                  </option>
-                ))}
+              {tables.map((table) => (
+                <option
+                  key={table.table_id}
+                  value={table.table_id}
+                  disabled={table.reservation_id ? true : false}
+                >
+                  {table.table_name} - {table.capacity}
+                </option>
+              ))}
             </select>
           </div>
           <div className='tablesNew_formBtns'>
-            <button className='tablesNew__formBtn' onClick={cancelHandler}>
+            <button
+              className='tablesNew__formBtn'
+              onClick={cancelHandler}
+              type='button'
+            >
               Cancel
             </button>
             <button className='tablesNew__formBtn' type='submit'>

@@ -80,7 +80,11 @@ export async function createReservation(newReservation, signal) {
 
 export async function listTables(signal) {
   const url = new URL(`${API_BASE_URL}/tables`);
-  return await fetchJson(url);
+  const options = {
+    method: 'GET',
+    headers,
+  };
+  return await fetchJson(url, options);
 }
 
 export async function createTable(newTable, signal) {
@@ -99,6 +103,15 @@ export async function seatReservation(tableId, reservation_id, signal) {
     method: 'PUT',
     headers,
     body: JSON.stringify({ data: { reservation_id } }),
+  };
+  return await fetchJson(url, options, {});
+}
+
+export async function deleteSeat(tableId) {
+  const url = new URL(`${API_BASE_URL}/tables/${tableId}/seat`);
+  const options = {
+    method: 'DELETE',
+    headers,
   };
   return await fetchJson(url, options, {});
 }
