@@ -1,4 +1,5 @@
 const knex = require('../db/connection');
+const reservationsService = require('../reservations/reservations.service');
 
 const create = (newTable) => {
   return knex('tables')
@@ -18,11 +19,15 @@ const update = (table_id, reservation_id) => {
   return knex('tables')
     .where({ table_id })
     .update({ reservation_id }, '*')
-    .then((rows) => rows[0]);
+    .then((rows) => rows[0])
+    .then(() => reservationsService.updateStatus(reservation_id, 'seated'));
 };
 
-const destroy = (table_id) => {
-  return knex('tables').where({ table_id }).update('reservation_id', null);
+const destroy = (table_id, reservation_id) => {
+  return knex('tables')
+    .where({ table_id })
+    .update('reservation_id', null)
+    .then(() => reservationsService.updateStatus(reservation_id, 'finished'));
 };
 
 module.exports = {
