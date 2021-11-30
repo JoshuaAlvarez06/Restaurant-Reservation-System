@@ -1,1 +1,26 @@
+.reservationsList {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
 
+.dashboard__content {
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (max-width: 1028px) {
+  .reservationsList {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .reservationsList {
+    display: flex;
+    flex-direction: column;
+  }
+}

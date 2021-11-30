@@ -21,6 +21,14 @@
   background: #eee;
 }
 
+@media screen and (max-width: 1028px) {
+  .tablesSection {
+    grid-template-columns: 1fr 1fr;
+    max-width: 550px;
+    margin: 0 auto;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .tablesSection {
     grid-template-columns: 1fr;

@@ -1,17 +1,16 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { updateStatus } from '../../utils/api';
 
-const SearchResult = ({ reservation, setError }) => {
-  const history = useHistory();
+const SearchResult = ({ reservation, setError, setRefresh }) => {
   const cancelReservation = ({ target }) => {
     const reservation_id = target.dataset.reservationIdCancel;
     const cancelConfirm = window.confirm(
-      'Do you want to cancel this reservation? This cannot be undone.'
+      'Do you want to cancel this reservation?\n\nThis cannot be undone.'
     );
     if (cancelConfirm) {
       updateStatus(reservation_id, { status: 'cancelled' })
-        .then(() => history.go(0))
+        .then(() => setRefresh(true))
         .catch(setError);
     }
   };

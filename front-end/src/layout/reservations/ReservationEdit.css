@@ -1,0 +1,58 @@
+.reservationEdit {
+  margin-top: 2rem;
+  width: 100%;
+  max-height: 100vh;
+}
+
+.reservationEdit__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 75%;
+  margin: 0 auto;
+}
+
+.reservationEdit__form {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  margin: 0 auto;
+}
+
+.reservationEdit__formGroup {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.reservationEdit__formGroup label {
+  margin-bottom: 0.3rem;
+}
+
+.reservationEdit__formGroup input {
+  padding: 0.5rem;
+}
+
+.reservationEdit__formBtns {
+  display: flex;
+  justify-content: space-between;
+}
+
+.reservationEdit__formBtn {
+  width: 25%;
+  background-color: rgb(129, 172, 247);
+  margin: 0 auto;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 0;
+}
+
+@media screen and (max-width: 768px) {
+  .reservationEdit__form {
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
+}
