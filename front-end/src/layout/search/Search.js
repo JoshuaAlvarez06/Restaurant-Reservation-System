@@ -33,7 +33,7 @@ const Search = () => {
       ))}
     </div>
   ) : (
-    <p className='search_resultsNotFound'>No reservations found</p>
+    <p className='search_resultsNotFound'>{`No reservations found for ${mobileNumber}`}</p>
   );
 
   return (
