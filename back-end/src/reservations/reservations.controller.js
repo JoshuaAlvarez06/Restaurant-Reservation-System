@@ -159,6 +159,17 @@ const searchReservationExists = async (req, res, next) => {
   }
 };
 
+const validUpdateRes = (req, res, next) => {
+  const { data } = req.body;
+  if (data.status !== 'booked') {
+    next({
+      status: 400,
+      message: 'This reservation cannot be edited.',
+    });
+  }
+  next();
+};
+
 async function list(req, res) {
   res.json({ data: res.locals.reservations });
 }
@@ -181,6 +192,13 @@ const updateStatus = async (req, res) => {
   res.json({ data });
 };
 
+const update = async (req, res) => {
+  const updatedRes = req.body.data;
+  const { reservationId } = req.params;
+  const data = await service.update(reservationId, updatedRes);
+  res.json({ data });
+};
+
 module.exports = {
   list: [asyncErrorBoundary(searchReservationExists), asyncErrorBoundary(list)],
   create: [validProperties, asyncErrorBoundary(create)],
@@ -189,5 +207,11 @@ module.exports = {
     asyncErrorBoundary(reservationExists),
     updateStatusValidation,
     asyncErrorBoundary(updateStatus),
+  ],
+  update: [
+    asyncErrorBoundary(reservationExists),
+    validProperties,
+    validUpdateRes,
+    asyncErrorBoundary(update),
   ],
 };

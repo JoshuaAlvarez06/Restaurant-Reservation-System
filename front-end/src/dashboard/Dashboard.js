@@ -70,6 +70,7 @@ function Dashboard({ date }) {
         <div className='reservationsList'>
           {reservations.map((reservation) => (
             <ReservationView
+              key={reservation.reservation_id}
               reservation={reservation}
               loadDashboard={loadDashboard}
               setReservationsError={setReservationsError}

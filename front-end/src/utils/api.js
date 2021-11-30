@@ -73,7 +73,7 @@ export async function createReservation(newReservation, signal) {
   const options = {
     method: 'POST',
     headers,
-    body: JSON.stringify(newReservation),
+    body: JSON.stringify({ data: newReservation }),
   };
   return await fetchJson(url, options, {});
 }

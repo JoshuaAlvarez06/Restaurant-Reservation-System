@@ -20,7 +20,7 @@ const ReservationView = ({
   };
 
   return (
-    <div className='reservation' key={reservation.reservation_id}>
+    <div className='reservation'>
       <div className='reservation__container'>
         <div className='reservation__info'>
           <p className='reservation__name'>
@@ -49,7 +49,11 @@ const ReservationView = ({
           <Link to={`/reservations/${reservation.reservation_id}/edit`}>
             <button className='btn btn-warning'>Edit</button>
           </Link>
-          <button className='btn btn-danger' onClick={cancelRes}>
+          <button
+            data-reservation-id-cancel={reservation.reservation_id}
+            className='btn btn-danger'
+            onClick={cancelRes}
+          >
             Cancel
           </button>
         </div>
