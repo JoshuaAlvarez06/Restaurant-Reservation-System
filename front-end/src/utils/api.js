@@ -136,3 +136,24 @@ export async function searchReservations(mobileNumber) {
   };
   return await fetchJson(url, options, {});
 }
+
+export async function readReservation(reservation_id) {
+  const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}`);
+  const options = {
+    method: 'GET',
+    headers,
+  };
+  return await fetchJson(url, options, {});
+}
+
+export async function updateReservation(updatedReservation) {
+  const url = new URL(
+    `${API_BASE_URL}/reservations/${updatedReservation.reservation_id}`
+  );
+  const options = {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify({ data: updatedReservation }),
+  };
+  return await fetchJson(url, options, {});
+}

@@ -1,0 +1,25 @@
+.reservation {
+  border: 1px solid rgb(227, 227, 227);
+  border-radius: 5px;
+  padding: 2rem 3rem;
+  width: 100%;
+  box-shadow: 0 0 10px rgb(0 0 0 / 16%);
+}
+
+.reservation__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.reservation__name {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.reservation__btnGroup {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 1rem;
+}

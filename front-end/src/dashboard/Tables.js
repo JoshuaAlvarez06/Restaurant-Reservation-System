@@ -16,7 +16,7 @@ const Tables = ({ tables = [], finished, tablesError }) => {
   return (
     <div className='tables'>
       <ErrorAlert error={tablesError} />
-      <h4 className='mt-4 mb-0'>Tables</h4>
+      <h4 className='mt-4 mb-2'>Tables</h4>
       <div className='tablesSection'>
         {tables.map((table) => (
           <div key={table.table_id} className='tableCard'>

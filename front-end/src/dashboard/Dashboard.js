@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { deleteSeat, listReservations, listTables } from '../utils/api';
 import ErrorAlert from '../layout/ErrorAlert';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { previous, next } from '../utils/date-time';
 import Tables from './Tables';
 import './Dashboard.css';
+import ReservationView from './ReservationView';
 
 /**
  * Defines the dashboard page.
@@ -65,55 +66,24 @@ function Dashboard({ date }) {
         </div>
       </div>
       <ErrorAlert error={reservationsError} />
-      <table className='table'>
-        <thead>
-          <tr className='reservations-head'>
-            <th>Name</th>
-            <th>Mobile Number</th>
-            <th>Reservation Time</th>
-            <th>People</th>
-            <th>Status</th>
-            <th>Seat</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reservations.map((reservation) => {
-            const reservation_id = reservation.reservation_id;
+      <div className='dashboard__content'>
+        <div className='reservationsList'>
+          {reservations.map((reservation) => (
+            <ReservationView
+              reservation={reservation}
+              loadDashboard={loadDashboard}
+              setReservationsError={setReservationsError}
+            />
+          ))}
+        </div>
 
-            return (
-              <tr key={reservation.reservation_id}>
-                <td>
-                  {reservation.first_name} {reservation.last_name}
-                </td>
-                <td>{reservation.mobile_number}</td>
-                <td>{reservation.reservation_time}</td>
-                <td>{reservation.people}</td>
-                <td data-reservation-id-status={reservation.reservation_id}>
-                  {reservation.status}
-                </td>
-                <td>
-                  {reservation.status === 'booked' && (
-                    <button className='btn btn-info'>
-                      <Link
-                        className='text-decoration-none text-white'
-                        to={`/reservations/${reservation_id}/seat`}
-                      >
-                        Seat
-                      </Link>
-                    </button>
-                  )}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      <Tables
-        loadDashboard={loadDashboard}
-        finished={finished}
-        tables={tables}
-        tablesError={tablesError}
-      />
+        <Tables
+          loadDashboard={loadDashboard}
+          finished={finished}
+          tables={tables}
+          tablesError={tablesError}
+        />
+      </div>
     </main>
   );
 }
