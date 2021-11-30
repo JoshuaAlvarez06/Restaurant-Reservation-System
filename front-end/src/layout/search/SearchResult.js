@@ -16,7 +16,7 @@ const SearchResult = ({ reservation, setError, setRefresh }) => {
   };
 
   return (
-    <div className='search__result' key={reservation.reservation_id}>
+    <div className='search__result'>
       <div className='search__resultInfo'>
         <p className='search__resultName'>
           Name: {reservation.first_name} {reservation.last_name}
@@ -33,9 +33,13 @@ const SearchResult = ({ reservation, setError, setRefresh }) => {
           <span
             style={
               reservation.status === 'finished'
-                ? { color: 'red', textTransform: 'capitalize' }
+                ? { color: 'darkblue', textTransform: 'capitalize' }
                 : reservation.status === 'booked'
                 ? { color: 'green', textTransform: 'capitalize' }
+                : reservation.status === 'cancelled'
+                ? { color: 'red', textTransform: 'capitalize' }
+                : reservation.status === 'seated'
+                ? { color: 'darkgreen', textTransform: 'capitalize' }
                 : { color: '#333', textTransform: 'capitalize' }
             }
           >

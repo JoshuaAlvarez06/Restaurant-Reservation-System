@@ -43,6 +43,7 @@ const Search = () => {
     <div className='search__results'>
       {results.map((reservation) => (
         <SearchResult
+          key={reservation.reservation_id}
           reservation={reservation}
           setError={setError}
           setRefresh={setRefresh}

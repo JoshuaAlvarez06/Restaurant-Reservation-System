@@ -14,8 +14,8 @@ function ErrorAlert({ error }) {
       <div className='alert alert-danger m-2'>
         Error:{' '}
         <ul>
-          {error.message.split(',').map((err, index) => (
-            <li key={index}>{err}</li>
+          {error.message.split(',').map((err) => (
+            <li key={err}>{err}</li>
           ))}
         </ul>
       </div>
