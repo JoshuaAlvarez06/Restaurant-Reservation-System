@@ -115,3 +115,24 @@ export async function deleteSeat(tableId) {
   };
   return await fetchJson(url, options, {});
 }
+
+export async function updateStatus(reservationId, status) {
+  const url = new URL(`${API_BASE_URL}/reservations/${reservationId}/status`);
+  const options = {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify({ data: status }),
+  };
+  return await fetchJson(url, options, {});
+}
+
+export async function searchReservations(mobileNumber) {
+  const url = new URL(
+    `${API_BASE_URL}/reservations?mobile_number=${mobileNumber}`
+  );
+  const options = {
+    method: 'GET',
+    headers,
+  };
+  return await fetchJson(url, options, {});
+}

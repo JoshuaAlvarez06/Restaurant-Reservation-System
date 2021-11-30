@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { listTables, seatReservation } from '../../utils/api';
+import { listTables, seatReservation, updateStatus } from '../../utils/api';
 import ErrorAlert from '../ErrorAlert';
 
 const ReservationsSeat = () => {
@@ -27,6 +27,7 @@ const ReservationsSeat = () => {
       return setError({ message: 'Select a table from the list' });
     }
     seatReservation(tableId, reservation_id)
+      .then(() => updateStatus(reservation_id, { status: 'seated' }))
       .then(() => history.push('/dashboard'))
       .catch(setError);
   };

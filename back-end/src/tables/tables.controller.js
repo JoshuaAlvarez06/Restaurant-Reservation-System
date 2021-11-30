@@ -104,6 +104,11 @@ const validUpdateBody = async (req, res, next) => {
       message: `table_id, ${tableId}, or reservation_id, ${reservation_id}, not found`,
     });
   }
+
+  if (foundReservation.status === 'seated') {
+    errors.push('Reservation is already seated');
+  }
+
   if (errors.length) {
     return next({
       status: 400,
@@ -136,7 +141,10 @@ const update = async (req, res) => {
 };
 
 const destroy = async (req, res) => {
-  const data = await service.destroy(res.locals.table.table_id);
+  const data = await service.destroy(
+    res.locals.table.table_id,
+    res.locals.table.reservation_id
+  );
   res.json({ data });
 };
 

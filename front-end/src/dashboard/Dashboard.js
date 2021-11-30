@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { listReservations } from '../utils/api';
+import { deleteSeat, listReservations, listTables } from '../utils/api';
 import ErrorAlert from '../layout/ErrorAlert';
 import { Link, useHistory } from 'react-router-dom';
 import { previous, next } from '../utils/date-time';
+import Tables from './Tables';
 import './Dashboard.css';
 
 /**
@@ -14,7 +15,9 @@ import './Dashboard.css';
 function Dashboard({ date }) {
   const history = useHistory();
   const [reservations, setReservations] = useState([]);
+  const [tables, setTables] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
+  const [tablesError, setTablesError] = useState(null);
 
   useEffect(loadDashboard, [date]);
 
@@ -24,8 +27,13 @@ function Dashboard({ date }) {
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
+    listTables().then(setTables).catch(setTablesError);
     return () => abortController.abort();
   }
+
+  const finished = (tableId) => {
+    deleteSeat(tableId).then(loadDashboard).catch(setReservationsError);
+  };
 
   return (
     <main style={{ maxWidth: '100vw' }}>
@@ -64,6 +72,7 @@ function Dashboard({ date }) {
             <th>Mobile Number</th>
             <th>Reservation Time</th>
             <th>People</th>
+            <th>Status</th>
             <th>Seat</th>
           </tr>
         </thead>
@@ -79,21 +88,32 @@ function Dashboard({ date }) {
                 <td>{reservation.mobile_number}</td>
                 <td>{reservation.reservation_time}</td>
                 <td>{reservation.people}</td>
+                <td data-reservation-id-status={reservation.reservation_id}>
+                  {reservation.status}
+                </td>
                 <td>
-                  <button className='btn btn-info'>
-                    <Link
-                      className='text-decoration-none text-white'
-                      to={`/reservations/${reservation_id}/seat`}
-                    >
-                      Seat
-                    </Link>
-                  </button>
+                  {reservation.status === 'booked' && (
+                    <button className='btn btn-info'>
+                      <Link
+                        className='text-decoration-none text-white'
+                        to={`/reservations/${reservation_id}/seat`}
+                      >
+                        Seat
+                      </Link>
+                    </button>
+                  )}
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
+      <Tables
+        loadDashboard={loadDashboard}
+        finished={finished}
+        tables={tables}
+        tablesError={tablesError}
+      />
     </main>
   );
 }
