@@ -14,7 +14,6 @@ const ReservationForm = ({ onSubmit, initialFormState, edit }) => {
       [target.name]:
         target.name === 'people' ? Number(target.value) : target.value,
     });
-    console.log(formData);
   };
 
   const handleSubmit = (e) => {
