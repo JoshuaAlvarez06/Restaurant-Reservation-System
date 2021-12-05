@@ -4,12 +4,17 @@ import { updateStatus } from '../../utils/api';
 
 const SearchResult = ({ reservation, setError, setRefresh }) => {
   const cancelReservation = ({ target }) => {
+    const abortController = new AbortController();
     const reservation_id = target.dataset.reservationIdCancel;
     const cancelConfirm = window.confirm(
       'Do you want to cancel this reservation?\n\nThis cannot be undone.'
     );
     if (cancelConfirm) {
-      updateStatus(reservation_id, { status: 'cancelled' })
+      updateStatus(
+        reservation_id,
+        { status: 'cancelled' },
+        abortController.signal
+      )
         .then(() => setRefresh(true))
         .catch(setError);
     }

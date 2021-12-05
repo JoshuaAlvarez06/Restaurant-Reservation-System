@@ -20,11 +20,13 @@ const ReservationEdit = () => {
   function loadReservation() {
     const abortController = new AbortController();
     setError(null);
-    readReservation(reservation_id).then(setReservation).catch(setError);
+    readReservation(reservation_id, abortController.signal)
+      .then(setReservation)
+      .catch(setError);
     return () => abortController.abort();
   }
 
-  const form = reservation?.reservation_id ? (
+  const form = reservation.reservation_id ? (
     <ReservationForm
       onSubmit={updateReservation}
       initialFormState={reservation}

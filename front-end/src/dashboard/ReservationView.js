@@ -9,11 +9,16 @@ const ReservationView = ({
   setReservationsError,
 }) => {
   const cancelRes = () => {
+    const abortController = new AbortController();
     const cancelConfirm = window.confirm(
       'Do you want to cancel this reservation?\n\nThis cannot be undone.'
     );
     if (cancelConfirm) {
-      updateStatus(reservation.reservation_id, { status: 'cancelled' })
+      updateStatus(
+        reservation.reservation_id,
+        { status: 'cancelled' },
+        abortController.signal
+      )
         .then(loadDashboard)
         .catch(setReservationsError);
     }

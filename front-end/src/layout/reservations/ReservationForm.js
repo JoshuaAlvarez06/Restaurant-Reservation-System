@@ -18,7 +18,8 @@ const ReservationForm = ({ onSubmit, initialFormState, edit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData)
+    const abortController = new AbortController();
+    onSubmit(formData, abortController.signal)
       .then(() => history.push(`/dashboard?date=${formData.reservation_date}`))
       .catch(setError);
   };

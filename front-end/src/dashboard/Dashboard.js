@@ -28,12 +28,15 @@ function Dashboard({ date }) {
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
-    listTables().then(setTables).catch(setTablesError);
+    listTables(abortController.signal).then(setTables).catch(setTablesError);
     return () => abortController.abort();
   }
 
   const finished = (tableId) => {
-    deleteSeat(tableId).then(loadDashboard).catch(setReservationsError);
+    const abortController = new AbortController();
+    deleteSeat(tableId, abortController.signal)
+      .then(loadDashboard)
+      .catch(setReservationsError);
   };
 
   return (

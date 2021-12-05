@@ -24,10 +24,14 @@ const TablesNew = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const abortController = new AbortController();
     try {
-      createTable({
-        data: { ...formData },
-      })
+      createTable(
+        {
+          data: { ...formData },
+        },
+        abortController.signal
+      )
         .then(() => history.push('/dashboard'))
         .catch(setError);
     } catch (error) {

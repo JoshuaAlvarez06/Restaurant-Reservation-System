@@ -26,8 +26,9 @@ const Search = () => {
   };
 
   const search = () => {
+    const abortController = new AbortController();
     if (phone) {
-      searchReservations(phone)
+      searchReservations(phone, abortController.signal)
         .then(setResults)
         .then(() => setRefresh(false))
         .then(() => setDisplay(true))
@@ -43,6 +44,7 @@ const Search = () => {
     <div className='search__results'>
       {results.map((reservation) => (
         <SearchResult
+          key={reservation.reservation_id}
           reservation={reservation}
           setError={setError}
           setRefresh={setRefresh}

@@ -13,7 +13,7 @@ const ReservationsSeat = () => {
 
   function loadTables() {
     const abortController = new AbortController();
-    listTables().then(setTables).catch(setError);
+    listTables(abortController.signal).then(setTables).catch(setError);
     return () => abortController.abort();
   }
   const cancelHandler = () => history.goBack();
@@ -23,11 +23,19 @@ const ReservationsSeat = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const abortController = new AbortController();
+
     if (tableId === 0) {
       return setError({ message: 'Select a table from the list' });
     }
-    seatReservation(tableId, reservation_id)
-      .then(() => updateStatus(reservation_id, { status: 'seated' }))
+    seatReservation(tableId, reservation_id, abortController.signal)
+      .then(() =>
+        updateStatus(
+          reservation_id,
+          { status: 'seated' },
+          abortController.signal
+        )
+      )
       .then(() => history.push('/dashboard'))
       .catch(setError);
   };

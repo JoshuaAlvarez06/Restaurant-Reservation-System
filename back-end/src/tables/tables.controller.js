@@ -149,9 +149,9 @@ const destroy = async (req, res) => {
 };
 
 module.exports = {
-  list,
+  list: asyncErrorBoundary(list),
   create: [validBodyProperties, asyncErrorBoundary(create)],
-  update: [validUpdateBody, asyncErrorBoundary(update)],
+  update: [asyncErrorBoundary(validUpdateBody), asyncErrorBoundary(update)],
   destroy: [
     asyncErrorBoundary(tableExistsToDelete),
     asyncErrorBoundary(destroy),
